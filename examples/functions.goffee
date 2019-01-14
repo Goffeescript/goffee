@@ -1,0 +1,38 @@
+# function with argument
+hello = (name)->
+  fmt.Println "Hello", name
+
+# function with implicit return type and explicit return statement
+getYear = ->
+  return 2019
+
+# function with multiple return values
+getPos = ->
+  return 123, 456
+
+# function with variable number of arguments
+NewSlice = (values...)->
+  return [values...]
+
+# method
+type Dog
+  name
+
+bark:the Dog = ->
+  fmt.Println the.name, "says: Woof!"
+
+main = ->
+  hello "Goffee"
+  pup = Dog "Bud"
+
+  pup.bark()
+
+  # Empty parenthesis in function call can be replaced with dot (unlike Coffeescript).
+  # Because functions in Go cannot have fields.
+  # Think about each function as a getter.
+  pup.bark.
+
+  # pass function as a value
+  barkPup = pup.bark
+
+

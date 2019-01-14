@@ -1,0 +1,65 @@
+
+main = ->
+  # create special "range" slice.
+  # does not necessarily map to real slice, but can be used instead of
+  # any slice.
+  nums = [0..100]
+
+  # create slice/array with data.
+  s = [1, 23, 456, 7]
+
+  fmt.Println "first element", s[0]
+  fmt.Println "last element", s[-1]
+  fmt.Println "all except first", s[1..]
+  fmt.Println "all except last", s[...-1] # notice the triple dot.
+
+  ######################################################################
+  # operator candidates
+
+  #
+  # 1. append/push value.
+  #
+  # reference:
+  slice = append(slice, 5)
+
+  # candidates:
+  slice <- 5 # good, similar to channel operator.
+  slice << 5 # ok? similar to shift operator.
+
+
+  #
+  # 2. shift first value.
+  #
+  # reference:
+  var val int
+  val, slice = slice[0], slice[1:]
+
+  # candidates:
+  val := <-slice # good, similar to channel operator.
+  val := <<slice # ok? similar to Ruby.
+  val << slice   # ambiguous, as val can be slice as well, making it push slice into val, instead of pop from slice into val.
+
+  #
+  # 3. pop last value.
+  #
+  # reference:
+  var val int
+  val, slice = slice[len(slice)-1], slice[:len(slice)-1]
+
+  # candidates:
+  val := slice-> # ok, similar to channel definition and function call with function definition, but slice cannot be called as function.
+  val := slice>> # ok?
+
+  slice -> val   # Breaks "receiver first" pattern. Ambiguous, interpreted as slice(func(){val}).
+  slice >> val   # Breaks "receiver first" pattern. Ambiguous, interpreted as binary shift.
+
+
+  #
+  # 4. prepend/unshift value
+  #
+  # reference:
+  slice = append([]int{5}, slice...)
+
+  # candidates:
+  5 -> slice # Breaks "receiver first" pattern. Ambiguous, 5(func(){slice})
+  5 >- slice # Breaks "receiver first" pattern. Syntax is strange.

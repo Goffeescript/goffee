@@ -1,0 +1,26 @@
+
+main = ->
+  # for boolean loop
+  for condition
+    doSomething()
+
+  # for fixed range loop
+  for i in [0..99]
+    fmt.Println i
+
+  # for value iteration loop
+  slice := []int{10, 20, 30}
+  for value in slice
+    fmt.Println value
+  # full form
+  for value, index in slice # note the order of value/index, like in Coffeescript
+    fmt.Println index, value
+
+  # for key iteration loop
+  for index of slice
+    fmt.Println index, slice[index]
+  # full form
+  for index, value of slice
+    fmt.Println index, value
+
+
