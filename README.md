@@ -80,6 +80,21 @@ Syntax is Coffeescript-inspired, but compiler uses Go toolchain and standard lib
     ```
 
     See [example](examples/slices.goffee) for other operator candidates.
+    
+  * Missing built-in set structure, with iteration support
+  
+    ```go
+    s := set[int]{5, 10, 20}
+    for n := range s
+      fmt.Println(n)
+    if s[10]
+      # ...
+    s[15] = true # add value
+    s[10] = false # remove value
+    # or
+    delete(s, 10)
+    ```
+     
 
 ## Examples
 
